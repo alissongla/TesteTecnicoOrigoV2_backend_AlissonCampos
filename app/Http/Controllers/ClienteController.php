@@ -15,11 +15,11 @@ class ClienteController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return ClienteCollection
+     * @return Cliente
      */
     public function index()
     {
-        return new ClienteCollection(Cliente::paginate());
+        return Cliente::with('planos')->get();
     }
 
     /**
@@ -43,7 +43,8 @@ class ClienteController extends Controller
      */
     public function show(Cliente $cliente)
     {
-        return new ClienteResource($cliente);
+        $clientePesquisado = Cliente::with('planos')->find($cliente);
+        return $clientePesquisado;
     }
 
     /**

@@ -25,7 +25,7 @@ class ClienteUpdateRequest extends FormRequest
     {
         return [
             'nome' => 'required|string',
-            'email' => 'required|email|unique:clientes',
+            'email' => 'email|unique:clientes',
             'telefone' => 'required|string',
             'estado' => 'required|string',
             'cidade' => 'required|string',
