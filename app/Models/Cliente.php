@@ -9,7 +9,8 @@ class Cliente extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    //protected $guarded = ['id'];
+    protected $fillable = ['nome', 'email', 'data_nascimento', 'telefone', 'estado', 'cidade'];
 
     protected $casts = [
         'data_nascimento' => 'datetime'

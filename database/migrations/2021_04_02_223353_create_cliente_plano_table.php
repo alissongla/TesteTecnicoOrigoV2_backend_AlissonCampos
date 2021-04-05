@@ -14,8 +14,8 @@ class CreateClientePlanoTable extends Migration
     public function up()
     {
         Schema::create('cliente_plano', function (Blueprint $table) {
-            $table->foreignId('cliente_id')->constrained();
-            $table->foreignId('plano_id')->constrained();
+            $table->foreignId('cliente_id')->constrained()->onDelete('cascade');
+            $table->foreignId('plano_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

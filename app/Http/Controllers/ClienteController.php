@@ -13,17 +13,48 @@ use Illuminate\Http\Request;
 class ClienteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     tags={"/cliente"},
+     *     summary="Mostra uma listagem de clientes",
+     *     description="Mostra uma listagem páginada de clientes cadastrados",
+     *     path="/cliente",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *          response="200", description="Listagem de clientes"
+     *     )
+     * )
      *
-     * @return ClienteCollection
+     * @return Cliente
      */
     public function index()
     {
-        return new ClienteCollection(Cliente::paginate());
+        return Cliente::with('planos')->paginate(5);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     tags={"/cliente"},
+     *     summary="Adiciona um cliente",
+     *     description="Adiciona um cliente",
+     *     path="/cliente",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="nome", type="string"),
+     *              @OA\Property(property="email", type="string"),
+     *              @OA\Property(property="telefone", type="string"),
+     *              @OA\Property(property="data_nascimento", type="date"),
+     *              @OA\Property(property="cidade", type="string"),
+     *              @OA\Property(property="estado", type="string"),
+     *              @OA\Property(property="planos", type="array", @OA\Items(type="integer")),
+     *         )
+     *      ),
+     *     @OA\Response(
+     *          response="201", description="Novo cliente adicionado"
+     *     )
+     * )
      *
      * @param  ClienteStoreRequest  $request
      * @return ClienteResource
@@ -36,18 +67,68 @@ class ClienteController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     tags={"/cliente"},
+     *     summary="Mostra um cliente",
+     *     description="Mostra o cliente cliente informado",
+     *     path="/cliente/{cliente}",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *          description="cliente_id",
+     *          in="path",
+     *          name="cliente",
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response="200", description="Exibir cliente"
+     *     )
+     * )
      *
      * @param  \App\Models\Cliente  $cliente
-     * @return ClienteResource
+     * @return Cliente
      */
     public function show(Cliente $cliente)
     {
-        return new ClienteResource($cliente);
+        $clientePesquisado = Cliente::with('planos')->find($cliente);
+        return $clientePesquisado;
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     tags={"/cliente"},
+     *     summary="Atualiza um cliente",
+     *     description="Atualiza as informações de um cliente",
+     *     path="/cliente/{cliente}",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *          description="cliente_id",
+     *          in="path",
+     *          name="cliente",
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64",
+     *          )
+     *     ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="nome", type="string"),
+     *              @OA\Property(property="email", type="string"),
+     *              @OA\Property(property="telefone", type="string"),
+     *              @OA\Property(property="data_nascimento", type="date"),
+     *              @OA\Property(property="cidade", type="string"),
+     *              @OA\Property(property="estado", type="string"),
+     *              @OA\Property(property="planos", type="array", @OA\Items(type="integer")),
+     *         )
+     *      ),
+     *     @OA\Response(
+     *          response="200", description="Exibir cliente"
+     *     )
+     * )
      *
      * @param  ClienteUpdateRequest $request
      * @param  \App\Models\Cliente  $cliente
@@ -62,7 +143,26 @@ class ClienteController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     tags={"/cliente"},
+     *     summary="Exclui um cliente",
+     *     description="Exclui as informações de um cliente",
+     *     path="/cliente/{cliente}",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *          description="cliente_id",
+     *          in="path",
+     *          name="cliente",
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64",
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response="204", description="Excluir cliente"
+     *     )
+     * )
+     *
      *
      * @param  \App\Models\Cliente  $cliente
      * @return \Illuminate\Http\JsonResponse
