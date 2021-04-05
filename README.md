@@ -3,8 +3,6 @@ Teste Técnico Órigo
 
 API de cadastro de clientes elaborada seguindo as orientações do teste proposto.
 
-Contact Info: [hello@helloreverb.com](hello@helloreverb.com)
-
 Version: 0.0.1
 
 All rights reserved
