@@ -18,8 +18,8 @@ class ClienteController extends Controller
      * @return Cliente
      */
     public function index()
-    {
-        return Cliente::with('planos')->get();
+    {     
+        return Cliente::with('planos')->paginate(5);
     }
 
     /**
