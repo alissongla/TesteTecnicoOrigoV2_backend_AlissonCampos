@@ -9,6 +9,8 @@ class Plano extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nome', 'mensalidade'];
+
     public function clientes() {
         return $this->belongsToMany('App\Models\Cliente', 'cliente_plano')->as('clientes_plano');;
     }

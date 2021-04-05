@@ -2,19 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Proposition;
+use App\Models\Plano;
 use Illuminate\Http\Request;
 
-class PropositionController extends Controller
+class PlanoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     tags={"/plano"},
+     *     summary="Mostra uma listagem de planos",
+     *     description="Mostra uma listagem páginada de planos cadastrados",
+     *     path="/plano",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *          response="200", description="Listagem de planos"
+     *     )
+     * )
      *
-     * @return \Illuminate\Http\Response
+     * @return Plano
      */
     public function index()
     {
-        //
+        return Plano::paginate(5);
     }
 
     /**
